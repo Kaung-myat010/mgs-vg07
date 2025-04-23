@@ -93,10 +93,8 @@
         #addColumnBtn {
             background: linear-gradient(45deg, rgba(247, 0, 255, 0.658), rgba(104, 0, 241, 0.753));
             color: white;
-            
             padding: 10px 20px;
             border-radius: 12px;
-            
             cursor: pointer;
             font-weight: bold;
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -177,6 +175,7 @@
             background: linear-gradient(45deg, rgba(255, 0, 106, 0.774), rgba(247, 0, 255, 0.767));
         }
 
+        
         #voucher {
             
             
@@ -199,13 +198,13 @@
         }
 
         #voucher::before {
-            content:"";
+            content: "";
             position: absolute;
-            top:0;
-            left:0;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            background-color:rgba(249, 219, 255, 0.664);
+            background-color: rgba(249, 219, 255, 0.664);
             z-index: 1;
             border-radius: 10px;
         }
@@ -214,8 +213,6 @@
             position: relative;
             z-index: 2;
         }
-        
-        
 
         .voucher-header {
             display: flex;
@@ -228,21 +225,19 @@
         .location {
             position: absolute;
             left: 20px;
-            
             display: flex;
             font-weight: bold;
             color: rgba(104, 0, 241, 0.753);
             z-index: 2;
         }
 
-        .location-text i{
+        .location-text i {
             font-size: 15px;
             font-weight: bold;
             margin-right: 8px;
             color: rgba(104, 0, 241, 0.753);
             display: flex;
             align-items: center;
-            
         }
 
         .location-text {
@@ -250,24 +245,20 @@
             margin-right: 8px;
             color: rgba(104, 0, 241, 0.753);
             display: flex;
-            
         }
 
         .phone {
-            font-size:15px;
-            color:rgba(104, 0, 241, 0.753);
+            font-size: 15px;
+            color: rgba(104, 0, 241, 0.753);
             display: flex;
             align-items: center;
             padding-left: 15px;
-            
         }
 
         .phone i {
             margin-right: 8px;
-            color:rgba(104, 0, 241, 0.753)
+            color: rgba(104, 0, 241, 0.753);
         }
-
-        
 
         table {
             background: transparent;
@@ -286,33 +277,33 @@
         }
 
         th {
-            background:linear-gradient(45deg,rgba(104, 0, 241, 0.753), rgba(96, 0, 223, 0.753));
+            background: linear-gradient(45deg, rgba(104, 0, 241, 0.753), rgba(96, 0, 223, 0.753));
             color: white;
         }
 
         /* Column Width Adjustments */
         th:nth-child(1), td.item-name {
-            width: 40%; /* Reduced width for Item Name */
-            min-width: 200px; /* Minimum width for readability */
-            white-space: normal; /* Allow text to wrap */
-            word-wrap: break-word; /* Ensure long text wraps */
+            width: 40%;
+            min-width: 200px;
+            white-space: normal;
+            word-wrap: break-word;
         }
 
         th:nth-child(2), td.quantity {
-            width: 9%; /* Narrow width for Qty (3 digits) */
-            min-width: 60px; /* Enough for 3 digits */
+            width: 9%;
+            min-width: 60px;
         }
 
         th:nth-child(3), td.price {
-            width: 23%; /* Match Total cell size */
+            width: 23%;
             min-width: 100px;
         }
 
         th:nth-child(4), td.total {
-            width: 23%; /* Total cell size */
+            width: 23%;
             min-width: 100px;
-            white-space: normal; /* Allow text to wrap */
-            word-wrap: break-word; /* Ensure long text wraps */
+            white-space: normal;
+            word-wrap: break-word;
         }
 
         tr:hover {
@@ -379,7 +370,6 @@
             text-align: center;
             margin-top: 10px;
             color: #2c2c2c;
-            
         }
 
         #saveBtn {
@@ -729,7 +719,6 @@
                 <input type="text" id="folderName" placeholder="Folder Name" required>
                 <button type="submit" id="folderFormSubmitBtn">Create</button>
             </form>
-            
         </div>
         <!-- Folder Action Island -->
         <div id="folderActionIsland">
@@ -745,7 +734,6 @@
             </div>
         </div>
 
-        
         <!-- Voucher System -->
         <div id="voucherSystem">
             <button id="closeVoucherSystemBtn">×</button>
@@ -773,7 +761,6 @@
                     <p id="displayVoucherDate"></p>
                 </div>
                 <div style="overflow-x: auto;">
-                    
                     <table id="voucherTable">
                         <thead>
                             <tr>
@@ -785,7 +772,6 @@
                         </thead>
                         <tbody></tbody>
                     </table>
-                    
                 </div>
                 <div class="location">
                     <a class="location-text">
@@ -1157,12 +1143,13 @@
         // Initialize Dropdown for Item Name
         function initDropdown(row) {
             const dropdown = row.querySelector('.item-name-dropdown');
-            dropdown.innerHTML = '';
+            dropdown.innerHTML = ''; // Clear previous items
             predefinedItems.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'dropdown-item';
                 div.textContent = item;
-                div.addEventListener('click', () => {
+                div.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent click from closing dropdown immediately
                     row.querySelector('.item-name input').value = item;
                     dropdown.style.display = 'none';
                     updateRowTotal(row);
@@ -1211,7 +1198,8 @@
                     tableBody.appendChild(row);
                     initDropdown(row);
                     attachInputListeners(row);
-                    row.querySelector('.item-name').addEventListener('click', () => {
+                    row.querySelector('.item-name').addEventListener('click', (e) => {
+                        e.stopPropagation();
                         const rows = Array.from(document.querySelectorAll('#voucherTable tbody tr'));
                         showDynamicIsland(row, rows.indexOf(row));
                     });
@@ -1226,11 +1214,18 @@
             const dropdown = row.querySelector('.item-name-dropdown');
             const inputs = row.querySelectorAll('input');
 
-            itemNameInput.addEventListener('focus', () => {
+            // Show dropdown on click instead of focus
+            itemNameInput.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent click from closing dropdown
                 initDropdown(row);
-                dropdown.style.display = 'block';
+                // Hide all other dropdowns
+                document.querySelectorAll('.item-name-dropdown').forEach(d => {
+                    if (d !== dropdown) d.style.display = 'none';
+                });
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
             });
 
+            // Filter dropdown items based on input
             itemNameInput.addEventListener('input', () => {
                 const searchTerm = itemNameInput.value.toLowerCase();
                 const items = dropdown.querySelectorAll('.dropdown-item');
@@ -1246,12 +1241,14 @@
                 saveVoucherData();
             });
 
+            // Close dropdown when clicking outside
             document.addEventListener('click', (e) => {
-                if (!row.contains(e.target)) {
+                if (!row.contains(e.target) && !dropdown.contains(e.target)) {
                     dropdown.style.display = 'none';
                 }
             });
 
+            // Update totals on quantity and price input
             inputs.forEach(input => {
                 if (input !== itemNameInput) {
                     input.addEventListener('input', () => {
@@ -1290,7 +1287,8 @@
             tableBody.appendChild(row);
             initDropdown(row);
             attachInputListeners(row);
-            row.querySelector('.item-name').addEventListener('click', () => {
+            row.querySelector('.item-name').addEventListener('click', (e) => {
+                e.stopPropagation();
                 const rows = Array.from(document.querySelectorAll('#voucherTable tbody tr'));
                 showDynamicIsland(row, rows.indexOf(row));
             });
@@ -1362,7 +1360,6 @@
             html2canvas(voucher, { 
                 useCORS: true, 
                 scale: window.devicePixelRatio || 2
-                // Removed backgroundColor to ensure the background image is captured
             }).then(canvas => {
                 canvas.toBlob(blob => {
                     const link = document.createElement('a');
